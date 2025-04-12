@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ESNext", // 输出 JS 使用现代语法
+    "useDefineForClassFields": true,
+    "module": "ESNext", // 使用 ESM 模块（Vite 支持）
+    "moduleResolution": "Node",
+    "strict": true, // 开启严格类型检查
+    "jsx": "react-jsx", // React 17+ JSX 转换（无需引入 React）
+    "resolveJsonModule": true, // 允许引入 JSON 文件
+    "esModuleInterop": true, // 支持 CommonJS 模块兼容
+    "skipLibCheck": true, // 跳过类型检查 node_modules
+    "forceConsistentCasingInFileNames": true, // 文件名大小写一致性
+    "lib": ["DOM", "ESNext"], // 使用 DOM 和最新 ES 特性
+    "allowSyntheticDefaultImports": true // 允许默认导入非模块默认导出
+  },
+  "types": ["babylonjs", "babylonjs-gui", "babylonjs-materials"],
+  "include": ["src"],
+  "exclude": ["node_modules", "dist"]
+}
