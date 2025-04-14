@@ -21,6 +21,7 @@ class GameScene extends BABYLON.Scene {
     this.createCamera();
     this.createLight();
     this.loadModel();
+    this.createSkyBox();
     // this.createBox();
   }
   // create camera.
@@ -33,6 +34,11 @@ class GameScene extends BABYLON.Scene {
       BABYLON.Vector3.Zero(),
       this
     );
+    camera.lowerBetaLimit = 0;
+    camera.upperBetaLimit = Math.PI * 2;
+    camera.lowerRadiusLimit = 10;
+    camera.upperRadiusLimit = 80;
+    camera.panningDistanceLimit = 10;
     // Make the mouse draggable.
     camera.attachControl();
   }
@@ -52,6 +58,21 @@ class GameScene extends BABYLON.Scene {
     // Adjust light brightness.
     directionalLight.intensity = 3;
   }
+  createSkyBox() {
+    const skyBox = BABYLON.MeshBuilder.CreateBox("skybox", {
+      size: 100,
+      sideOrientation: BABYLON.Mesh.BACKSIDE,
+    });
+    const material = new BABYLON.BackgroundMaterial("skyboxMaterial", this);
+    material.reflectionTexture = new BABYLON.CubeTexture(
+      "/assets/textures/skybox",
+      this,
+      ["_px", "_py", "_pz", "_nx", "_ny", "_nz"].map((i) => `${i}.jpg`)
+    );
+    material.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;
+    skyBox.material = material;
+  }
+  // load model
   async loadModel() {
     await BABYLON.AppendSceneAsync("/assets/models/robo_obj_pose4.glb", this);
     const glow = new BABYLON.GlowLayer("glow", this);
@@ -78,9 +99,9 @@ class GameScene extends BABYLON.Scene {
 
 const engine = await createEngine();
 const scene = new GameScene(engine);
-scene.debugLayer.show({
-  // embedMode: true,
-});
+// scene.debugLayer.show({
+//   // embedMode: true,
+// });
 engine.runRenderLoop(() => {
   scene.render();
 });
